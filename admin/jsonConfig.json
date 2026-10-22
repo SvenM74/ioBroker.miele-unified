@@ -1,1 +1,547 @@
-{"i18n":true,"type":"panel","items":{"mode":{"type":"select","label":"Connection mode","options":[{"label":"Cloud","value":"cloud"},{"label":"Local (not yet operational)","value":"local"},{"label":"Hybrid (cloud only until local transport implemented)","value":"hybrid"}]},"pollSeconds":{"type":"number","label":"Poll interval (seconds)","min":30},"clientId":{"type":"text","label":"Miele developer client ID"},"clientSecret":{"type":"password","label":"Miele developer client secret"},"refreshToken":{"type":"password","label":"Miele OAuth refresh token"},"accessToken":{"type":"password","label":"Temporary Miele access token"},"deviceIp":{"type":"text","label":"Device IP (future local support)"},"groupId":{"type":"text","label":"GroupID (future local support)"},"groupKey":{"type":"password","label":"GroupKey (future local support)"}}}
+{
+  "i18n": true,
+  "type": "panel",
+  "items": {
+    "intro": {
+      "type": "staticText",
+      "text": {
+        "de": "Miele Unified verbindet Miele-Geräte über die Cloud und perspektivisch direkt im lokalen Netzwerk. Lokale Kommunikation und Gerätesteuerung sind noch in Entwicklung.",
+        "en": "Miele Unified connects devices via the cloud and, in a future version, the local network. Local transport and device control are still in development."
+      },
+      "xs": 12
+    },
+    "basic": {
+      "type": "header",
+      "text": {
+        "de": "Allgemeine Einstellungen",
+        "en": "Allgemeine Einstellungen"
+      },
+      "newLine": true,
+      "size": 2,
+      "xs": 12
+    },
+    "mode": {
+      "type": "select",
+      "label": {
+        "de": "Verbindungsart",
+        "en": "Verbindungsart"
+      },
+      "tooltip": {
+        "de": "Cloud ist derzeit nutzbar; LAN und Hybrid sind noch nicht vollständig implementiert.",
+        "en": "Cloud ist derzeit nutzbar; LAN und Hybrid sind noch nicht vollständig implementiert."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "default": "cloud",
+      "options": [
+        {
+          "label": {
+            "de": "Miele Cloud",
+            "en": "Miele Cloud"
+          },
+          "value": "cloud"
+        },
+        {
+          "label": {
+            "de": "Nur LAN (in Entwicklung)",
+            "en": "LAN only (in development)"
+          },
+          "value": "local"
+        },
+        {
+          "label": {
+            "de": "Hybrid (in Entwicklung)",
+            "en": "Hybrid (in development)"
+          },
+          "value": "hybrid"
+        }
+      ]
+    },
+    "locale": {
+      "type": "select",
+      "label": {
+        "de": "Sprache der Gerätemeldungen",
+        "en": "Sprache der Gerätemeldungen"
+      },
+      "tooltip": {
+        "de": "Legt die Sprache für übersetzte Gerätestatus und Benachrichtigungen fest.",
+        "en": "Legt die Sprache für übersetzte Gerätestatus und Benachrichtigungen fest."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "default": "de",
+      "options": [
+        {
+          "label": "Deutsch",
+          "value": "de"
+        },
+        {
+          "label": "English",
+          "value": "en"
+        },
+        {
+          "label": "Français",
+          "value": "fr"
+        },
+        {
+          "label": "Español",
+          "value": "es"
+        },
+        {
+          "label": "Italiano",
+          "value": "it"
+        },
+        {
+          "label": "Nederlands",
+          "value": "nl"
+        }
+      ]
+    },
+    "cloud": {
+      "type": "header",
+      "text": {
+        "de": "Miele Cloud und Anmeldung",
+        "en": "Miele Cloud und Anmeldung"
+      },
+      "newLine": true,
+      "size": 2,
+      "xs": 12
+    },
+    "cloudHelp": {
+      "type": "staticText",
+      "text": {
+        "de": "Wie beim originalen CloudService-Adapter werden Miele-Konto, API-Zugang und Region getrennt konfiguriert. Die vollständige Anmeldung per Konto und Passwort ist in diesem Entwicklungsstand noch nicht implementiert.",
+        "en": "As in the original CloudService adapter, account, API credentials and region are separate. Account/password login is not implemented yet."
+      },
+      "xs": 12
+    },
+    "Miele_Account": {
+      "type": "text",
+      "label": {
+        "de": "Miele-Konto (E-Mail)",
+        "en": "Miele-Konto (E-Mail)"
+      },
+      "tooltip": {
+        "de": "E-Mail-Adresse des Miele-Kontos; für die spätere vollständige Anmeldung.",
+        "en": "E-Mail-Adresse des Miele-Kontos; für die spätere vollständige Anmeldung."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6
+    },
+    "Miele_pwd": {
+      "type": "password",
+      "label": {
+        "de": "Miele-Passwort",
+        "en": "Miele-Passwort"
+      },
+      "tooltip": {
+        "de": "Passwort des Miele-Kontos; wird in dieser Entwicklungsfassung noch nicht verwendet.",
+        "en": "Passwort des Miele-Kontos; wird in dieser Entwicklungsfassung noch nicht verwendet."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6
+    },
+    "clientId": {
+      "type": "text",
+      "label": {
+        "de": "API Client-ID",
+        "en": "API Client-ID"
+      },
+      "tooltip": {
+        "de": "Client-ID aus dem Miele Developer Portal.",
+        "en": "Client-ID aus dem Miele Developer Portal."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6
+    },
+    "clientSecret": {
+      "type": "password",
+      "label": {
+        "de": "API Client-Secret",
+        "en": "API Client-Secret"
+      },
+      "tooltip": {
+        "de": "Geheimer API-Schlüssel aus dem Miele Developer Portal.",
+        "en": "Geheimer API-Schlüssel aus dem Miele Developer Portal."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6
+    },
+    "oauthRegion": {
+      "type": "select",
+      "label": {
+        "de": "Miele-Region",
+        "en": "Miele-Region"
+      },
+      "tooltip": {
+        "de": "Region des Miele-Kontos für die spätere OAuth-Anmeldung.",
+        "en": "Region des Miele-Kontos für die spätere OAuth-Anmeldung."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "default": "de-DE",
+      "options": [
+        {
+          "label": "Deutschland",
+          "value": "de-DE"
+        },
+        {
+          "label": "Österreich",
+          "value": "de-AT"
+        },
+        {
+          "label": "Schweiz",
+          "value": "de-CH"
+        },
+        {
+          "label": "Niederlande",
+          "value": "nl-NL"
+        },
+        {
+          "label": "Frankreich",
+          "value": "fr-FR"
+        },
+        {
+          "label": "Vereinigtes Königreich",
+          "value": "en-GB"
+        },
+        {
+          "label": "USA",
+          "value": "en-US"
+        }
+      ]
+    },
+    "refreshToken": {
+      "type": "password",
+      "label": {
+        "de": "OAuth Refresh-Token",
+        "en": "OAuth Refresh-Token"
+      },
+      "tooltip": {
+        "de": "Token zur Erneuerung der Cloud-Anmeldung.",
+        "en": "Token zur Erneuerung der Cloud-Anmeldung."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6
+    },
+    "accessToken": {
+      "type": "password",
+      "label": {
+        "de": "Temporärer Access-Token",
+        "en": "Temporärer Access-Token"
+      },
+      "tooltip": {
+        "de": "Nur für Entwicklung und Diagnose. Ein ablaufender Token ersetzt keine vollständige Anmeldung.",
+        "en": "Nur für Entwicklung und Diagnose. Ein ablaufender Token ersetzt keine vollständige Anmeldung."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6
+    },
+    "events": {
+      "type": "header",
+      "text": {
+        "de": "Echtzeitereignisse und Abfrage",
+        "en": "Echtzeitereignisse und Abfrage"
+      },
+      "newLine": true,
+      "size": 2,
+      "xs": 12
+    },
+    "cloudSse": {
+      "type": "checkbox",
+      "label": {
+        "de": "Cloud-Ereignisse (SSE) aktivieren",
+        "en": "Cloud-Ereignisse (SSE) aktivieren"
+      },
+      "tooltip": {
+        "de": "Wie beim originalen Adapter: Ereignisse unmittelbar von der Cloud empfangen. Die SSE-Verbindung ist noch nicht implementiert.",
+        "en": "Wie beim originalen Adapter: Ereignisse unmittelbar von der Cloud empfangen. Die SSE-Verbindung ist noch nicht implementiert."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "default": true
+    },
+    "delayedProcessing": {
+      "type": "checkbox",
+      "label": {
+        "de": "Nachrichten verzögert verarbeiten",
+        "en": "Nachrichten verzögert verarbeiten"
+      },
+      "tooltip": {
+        "de": "Optionales Zusammenfassen schnell aufeinanderfolgender Ereignisse; derzeit noch nicht im Adapterkern verdrahtet.",
+        "en": "Optionales Zusammenfassen schnell aufeinanderfolgender Ereignisse; derzeit noch nicht im Adapterkern verdrahtet."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "default": false
+    },
+    "messageDelay": {
+      "type": "number",
+      "label": {
+        "de": "Nachrichtenverzögerung (ms)",
+        "en": "Nachrichtenverzögerung (ms)"
+      },
+      "tooltip": {
+        "de": "Wartezeit in Millisekunden für verzögerte Ereignisse.",
+        "en": "Wartezeit in Millisekunden für verzögerte Ereignisse."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "default": 2000,
+      "min": 1,
+      "max": 65565
+    },
+    "pollSeconds": {
+      "type": "number",
+      "label": {
+        "de": "Abfrageintervall (Sekunden)",
+        "en": "Abfrageintervall (Sekunden)"
+      },
+      "tooltip": {
+        "de": "Wie häufig die Miele-Cloud nach neuen Gerätezuständen abgefragt wird.",
+        "en": "Wie häufig die Miele-Cloud nach neuen Gerätezuständen abgefragt wird."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "default": 120,
+      "min": 30,
+      "max": 86400
+    },
+    "lan": {
+      "type": "header",
+      "text": {
+        "de": "Lokales Netzwerk (MieleH256/DOP2)",
+        "en": "Lokales Netzwerk (MieleH256/DOP2)"
+      },
+      "newLine": true,
+      "size": 2,
+      "xs": 12
+    },
+    "lanHelp": {
+      "type": "staticText",
+      "text": {
+        "de": "Diese Einstellungen sind vorbereitet. Die lokale Kommunikation wird erst nach erfolgreicher Protokollimplementierung aktiviert.",
+        "en": "These settings are prepared. Local communication will be enabled after protocol implementation."
+      },
+      "xs": 12
+    },
+    "deviceIp": {
+      "type": "text",
+      "label": {
+        "de": "IP-Adresse des Miele-Geräts",
+        "en": "IP-Adresse des Miele-Geräts"
+      },
+      "tooltip": {
+        "de": "Feste IP-Adresse oder DHCP-Reservierung im Heimnetz.",
+        "en": "Feste IP-Adresse oder DHCP-Reservierung im Heimnetz."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6
+    },
+    "groupId": {
+      "type": "text",
+      "label": {
+        "de": "Lokale GroupID",
+        "en": "Lokale GroupID"
+      },
+      "tooltip": {
+        "de": "Authentifizierungskennung der lokalen Miele-Verbindung.",
+        "en": "Authentifizierungskennung der lokalen Miele-Verbindung."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6
+    },
+    "groupKey": {
+      "type": "password",
+      "label": {
+        "de": "Lokaler GroupKey",
+        "en": "Lokaler GroupKey"
+      },
+      "tooltip": {
+        "de": "Geheimer Schlüssel für die lokale Gerätekommunikation.",
+        "en": "Geheimer Schlüssel für die lokale Gerätekommunikation."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6
+    },
+    "notifications": {
+      "type": "header",
+      "text": {
+        "de": "Pushover-Benachrichtigungen",
+        "en": "Pushover-Benachrichtigungen"
+      },
+      "newLine": true,
+      "size": 2,
+      "xs": 12
+    },
+    "pushoverHelp": {
+      "type": "staticText",
+      "text": {
+        "de": "Benachrichtigungen werden über eine bereits installierte ioBroker-Pushover-Instanz verschickt. Es sind keine zusätzlichen Pushover-API-Schlüssel in diesem Adapter nötig. Der Versand ist vorbereitet, die Ereigniserkennung wird noch angebunden.",
+        "en": "Notifications are sent through an installed ioBroker Pushover instance. Event detection is not connected yet."
+      },
+      "xs": 12
+    },
+    "pushoverEnabled": {
+      "type": "checkbox",
+      "label": {
+        "de": "Pushover aktivieren",
+        "en": "Pushover aktivieren"
+      },
+      "tooltip": {
+        "de": "Aktiviert die Benachrichtigungsfunktion, sobald die Ereignisverarbeitung angebunden ist.",
+        "en": "Aktiviert die Benachrichtigungsfunktion, sobald die Ereignisverarbeitung angebunden ist."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "default": false
+    },
+    "pushoverInstance": {
+      "type": "text",
+      "label": {
+        "de": "Pushover-Instanz",
+        "en": "Pushover-Instanz"
+      },
+      "tooltip": {
+        "de": "Name der ioBroker-Instanz, beispielsweise pushover.0.",
+        "en": "Name der ioBroker-Instanz, beispielsweise pushover.0."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "default": "pushover.0"
+    },
+    "notifyFinished": {
+      "type": "checkbox",
+      "label": {
+        "de": "Waschprogramm beendet",
+        "en": "Waschprogramm beendet"
+      },
+      "tooltip": {
+        "de": "Nachricht beim Übergang von laufendem Programm zu Programmende.",
+        "en": "Nachricht beim Übergang von laufendem Programm zu Programmende."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "default": true
+    },
+    "notifyTwinDos": {
+      "type": "checkbox",
+      "label": {
+        "de": "TwinDos-Füllstand / Kartusche leer",
+        "en": "TwinDos-Füllstand / Kartusche leer"
+      },
+      "tooltip": {
+        "de": "Nachricht nur bei tatsächlich erkannten TwinDos-Warnungen, nicht aufgrund geschätzter Füllstände.",
+        "en": "Nachricht nur bei tatsächlich erkannten TwinDos-Warnungen, nicht aufgrund geschätzter Füllstände."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "default": true
+    },
+    "notifyErrors": {
+      "type": "checkbox",
+      "label": {
+        "de": "Störungen und Fehler",
+        "en": "Störungen und Fehler"
+      },
+      "tooltip": {
+        "de": "Meldung bei neu auftretenden Gerätefehlern.",
+        "en": "Meldung bei neu auftretenden Gerätefehlern."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "default": true
+    },
+    "notifyOffline": {
+      "type": "checkbox",
+      "label": {
+        "de": "Gerät nicht erreichbar",
+        "en": "Gerät nicht erreichbar"
+      },
+      "tooltip": {
+        "de": "Meldung bei bestätigtem Verbindungsverlust; kurze Unterbrechungen sollen gefiltert werden.",
+        "en": "Meldung bei bestätigtem Verbindungsverlust; kurze Unterbrechungen sollen gefiltert werden."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "default": false
+    },
+    "pushoverPriority": {
+      "type": "select",
+      "label": {
+        "de": "Pushover-Priorität",
+        "en": "Pushover-Priorität"
+      },
+      "tooltip": {
+        "de": "Priorität der gesendeten Nachrichten.",
+        "en": "Priorität der gesendeten Nachrichten."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "default": 0,
+      "options": [
+        {
+          "label": {
+            "de": "Leise",
+            "en": "Silent"
+          },
+          "value": -1
+        },
+        {
+          "label": {
+            "de": "Normal",
+            "en": "Normal"
+          },
+          "value": 0
+        },
+        {
+          "label": {
+            "de": "Hoch",
+            "en": "High"
+          },
+          "value": 1
+        }
+      ]
+    },
+    "notificationCooldownSeconds": {
+      "type": "number",
+      "label": {
+        "de": "Wiederholungssperre (Sekunden)",
+        "en": "Wiederholungssperre (Sekunden)"
+      },
+      "tooltip": {
+        "de": "Verhindert doppelte Benachrichtigungen durch Cloud- und LAN-Ereignisse.",
+        "en": "Verhindert doppelte Benachrichtigungen durch Cloud- und LAN-Ereignisse."
+      },
+      "xs": 12,
+      "sm": 6,
+      "md": 6,
+      "default": 300,
+      "min": 0,
+      "max": 86400
+    }
+  }
+}
