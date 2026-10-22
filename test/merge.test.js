@@ -1,0 +1,1 @@
+const assert=require('node:assert/strict');const {mergeDevices}=require('../lib/merge');const x=mergeDevices({'1':{ident:{fabNumber:'123'},state:{status:5}}},[{id:'2',ident:{fabNumber:'123'},state:{status:5}}]);assert.equal(x.length,1);assert.ok(x[0].sources.cloud);assert.ok(x[0].sources.local);console.log('merge tests passed');
