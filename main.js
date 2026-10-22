@@ -1,0 +1,14 @@
+'use strict';
+const utils=require('@iobroker/adapter-core');
+const {MieleCloud}=require('./lib/cloud');
+const {MieleLocal}=require('./lib/local');
+const {mergeDevices}=require('./lib/merge');
+class MieleUnified extends utils.Adapter {
+ constructor(options={}){super({...options,name:'miele-unified'});this.on('ready',()=>this.ready());this.on('unload',cb=>this.unload(cb));this.on('stateChange',(id,state)=>this.stateChange(id,state));this.timer=null;this.busy=false;this.devices=new Map();}
+ async ready(){this.cloud=new MieleCloud(this.config,this.log);this.local=new MieleLocal(this.config);await this.setObjectNotExistsAsync('info.connection',{type:'state',common:{name:'Connected',type:'boolean',role:'indicator.connected',read:true,write:false,def:false},native:{}});await this.setObjectNotExistsAsync('info.localStatus',{type:'state',common:{name:'Local transport status',type:'string',role:'text',read:true,write:false,def:''},native:{}});await this.setStateAsync('info.localStatus',{val:'Native DOP2 not implemented in this development build',ack:true});await this.poll();this.timer=setInterval(()=>this.poll(),Math.max(30,Number(this.config.pollSeconds)||60)*1000);}
+ async put(id,name,value,role='state'){if(value===null||value===undefined)value='';await this.setObjectNotExistsAsync(id,{type:'state',common:{name,type:typeof value==='number'?'number':typeof value==='boolean'?'boolean':'string',role,read:true,write:false},native:{}});await this.setStateAsync(id,{val:typeof value==='object'?JSON.stringify(value):value,ack:true});}
+ async poll(){if(this.busy)return;this.busy=true;let cloudOk=false;try{let cloud={};if(this.config.mode!=='local'){cloud=await this.cloud.devices();cloudOk=true;}const combined=mergeDevices(cloud,[]);for(const device of combined){const id=device.id.replace(/[^a-zA-Z0-9_-]/g,'_');this.devices.set(id,device);await this.setObjectNotExistsAsync(`devices.${id}`,{type:'device',common:{name:`Miele ${id}`},native:{}});await this.put(`devices.${id}.source`,'Available source','cloud');const state=device.sources.cloud?.state||{};for(const [key,val] of Object.entries(state)){const safe=key.replace(/[^a-zA-Z0-9_-]/g,'_');await this.put(`devices.${id}.state.${safe}`,key,val);}}await this.setStateAsync('info.connection',{val:cloudOk,ack:true});}catch(e){this.log.warn(`Poll: ${e.message}`);await this.setStateAsync('info.connection',{val:false,ack:true});}finally{this.busy=false;}}
+ async stateChange(id,state){if(!id||!state||state.ack)return;this.log.warn(`Unexpected write to ${id}; commands are disabled in this development build`);}
+ unload(cb){if(this.timer)clearInterval(this.timer);cb();}
+}
+if(require.main!==module)new MieleUnified();else module.exports=options=>new MieleUnified(options);
